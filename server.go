@@ -236,6 +236,7 @@ func (s *server) handleFrontConnections() error {
 		})))
 
 	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Infof("%s not found (404)", r.URL.Path)
 		s.serveContent(w, r, "404.html")
 	})
 
