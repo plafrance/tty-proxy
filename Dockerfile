@@ -25,6 +25,7 @@ USER tty-proxy
 ENV URL=http://localhost:8080
 ENV FRONT_ADDRESS=:9000
 ENV BACK_ADDRESS=:3456
+ENV TTYSHARE_SUBDIR=\"\"
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/bin/sh", "-c", "/usr/bin/tty-proxy --verbose --front-address $FRONT_ADDRESS --back-address $BACK_ADDRESS -url $URL --subdir $TTYSHARE_SUBDIR"]
