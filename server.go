@@ -206,7 +206,7 @@ func (s *server) serveContent(w http.ResponseWriter, r *http.Request, name strin
 
 func (s *server) handleFrontConnections() error {
 	router := mux.NewRouter()
-	Log.Infof("Listening for front client on %s", "/" + s.config.subDir + "s/{sessionID}/" )
+	log.Infof("Listening for front client on %s", "/" + s.config.subDir + "s/{sessionID}/" )
 	router.PathPrefix("/" + s.config.subDir + "s/{sessionID}/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		startTime := time.Now()
 		log.Infof("New front client connection: %s, from %s", r.URL.Path, r.RemoteAddr)
