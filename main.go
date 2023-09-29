@@ -13,6 +13,7 @@ func main() {
 	backListenAddress := flag.String("back-address", "localhost:3456", "The back address to listen for reverse proxy connections")
 	url := flag.String("url", "http://localhost:8080", "The public URL this can be accessed over, to be sent back to tty-share")
 	verbose := flag.Bool("verbose", false, "Verbose logging")
+	subDir := flag.String("subdir", "", "Subdirectory")
 	flag.Parse()
 
 	// Log setup
@@ -25,6 +26,7 @@ func main() {
 		backListenAddress:  *backListenAddress,
 		frontListenAddress: *frontListenAddress,
 		publicURL:          *url,
+		subDir:             *subDir,
 	}
 
 	server := newServer(config)

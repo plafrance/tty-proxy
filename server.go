@@ -47,6 +47,7 @@ type serverConfig struct {
 	publicURL          string
 	backListenAddress  string
 	frontListenAddress string
+	subDir             string
 }
 type server struct {
 	config               serverConfig
@@ -205,7 +206,7 @@ func (s *server) serveContent(w http.ResponseWriter, r *http.Request, name strin
 
 func (s *server) handleFrontConnections() error {
 	router := mux.NewRouter()
-	router.PathPrefix("/s/{sessionID}/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	router.PathPrefix("/" + s.config.subDir + "s/{sessionID}/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		startTime := time.Now()
 		log.Infof("New front client connection: %s, from %s", r.URL.Path, r.RemoteAddr)
 		vars := mux.Vars(r)
@@ -230,7 +231,7 @@ func (s *server) handleFrontConnections() error {
 		log.Infof("Front client request %s from %s proxied for %.2f sec", r.URL.Path, r.RemoteAddr,  duration.Seconds())
 	})
 
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
+	router.PathPrefix("/" + s.config.subDir + "static/").Handler(http.StripPrefix("/static/",
 		http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			s.serveContent(w, r, r.URL.Path)
 		})))
@@ -240,7 +241,7 @@ func (s *server) handleFrontConnections() error {
 		s.serveContent(w, r, "404.html")
 	})
 
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	router.HandleFunc("/" + s.config.subDir + "", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "https://tty-share.com", http.StatusMovedPermanently)
 	})
 

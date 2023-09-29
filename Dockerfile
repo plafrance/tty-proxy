@@ -27,6 +27,6 @@ ENV FRONT_ADDRESS=:9000
 ENV BACK_ADDRESS=:3456
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["/bin/sh", "-c", "/usr/bin/tty-proxy --verbose --front-address $FRONT_ADDRESS --back-address $BACK_ADDRESS -url $URL"]
+CMD ["/bin/sh", "-c", "/usr/bin/tty-proxy --verbose --front-address $FRONT_ADDRESS --back-address $BACK_ADDRESS -url $URL --subdir $TTYSHARE_SUBDIR"]
 
 COPY --from=build /usr/bin/dumb-init /usr/bin/tty-proxy /usr/bin/
